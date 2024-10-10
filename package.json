@@ -1,0 +1,20 @@
+{
+  "name": "flying-donuts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --config ./vite.config.js",
+    "build": "vite build --config ./vite.config.js",
+    "preview": "vite preview --config ./vite.config.js",
+    "format": "prettier ./src/ --write"
+  },
+  "devDependencies": {
+    "eslint": "^9.12.0",
+    "prettier": "^3.3.3",
+    "vite": "^5.4.8"
+  },
+  "dependencies": {
+    "three": "^0.169.0"
+  }
+}
