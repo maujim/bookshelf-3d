@@ -1,6 +1,6 @@
 export default {
   root: './src',
   server: {
-    host: true
+    // host: true
   }
 }
