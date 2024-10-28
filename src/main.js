@@ -47,6 +47,16 @@ const bookHeight = frontFaceWidth;
 const bookDepth = spineWidth;
 const spacing = 0.5 * 3;
 
+const book_titles = [
+  'Hämähäkki, by Maila Talvio',
+  'Resend. Friesland, by Jac. P. Thijsse',
+  'Presidential addresses and State papers, Vol. 1, by Theodore Roosevelt',
+  'Saint Dominique, by Jean Guiraud',
+  'Ritari Galahad, by John Erskine',
+  'Belinda of the Red Cross, by Robert W. Hamilton',
+  'La nave de los locos, by Pío Baroja',
+];
+
 const boxGeometryMaterialMaker = (baseMaterial, extras) => {
   const sides = ['right', 'left', 'top', 'bottom', 'front', 'back'];
 
@@ -61,8 +71,13 @@ for (let i = 0; i < numBooks; i++) {
   // geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
   // geometry = new THREE.TorusGeometry();
   const baseMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+
+  let title = book_titles[i];
+  let title_texture = createTextTexture(
+    title, frontFaceHeight, spineWidth
+  )
   const materials = boxGeometryMaterialMaker(baseMaterial, {
-    top: new THREE.MeshBasicMaterial({ map: createTextTexture('title') }),
+    top: new THREE.MeshBasicMaterial({ map: title_texture }),
   });
 
   const mesh = new THREE.Mesh(geometry, materials);
@@ -112,11 +127,11 @@ window.addEventListener('resize', () => {
 });
 
 // Create a canvas to draw the text
-function createTextTexture(text) {
+function createTextTexture(text, width, height) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
 
-  canvas.width = 512; // Adjust canvas size
+  canvas.width = (width / height) * 512; // Adjust canvas size
   canvas.height = 512;
 
   // Set the background color (optional)
@@ -125,7 +140,7 @@ function createTextTexture(text) {
 
   // Set text properties
   context.fillStyle = 'red'; // Text color
-  context.font = '50px Arial'; // Font and size
+  context.font = '120px Arial'; // Font and size
   context.textAlign = 'center';
   context.textBaseline = 'middle';
 
