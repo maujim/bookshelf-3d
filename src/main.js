@@ -1,16 +1,9 @@
 import * as THREE from 'three';
 
-// Store the original console.log method
-const originalLog = console.log;
-
 // Create an array to hold log messages
 const logMessages = [];
 
-// Override the console.log function
-console.log = function (message) {
-  // Call the original console.log to print to the console
-  originalLog.apply(console, arguments);
-
+const html_console_log = function (message) {
   // Add the message to the logMessages array (limit to last 10 logs)
   logMessages.push(message);
   if (logMessages.length > 10) logMessages.shift(); // Keep only the last 10 logs
@@ -73,9 +66,7 @@ for (let i = 0; i < numBooks; i++) {
   const baseMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
 
   let title = book_titles[i];
-  let title_texture = createTextTexture(
-    title, frontFaceHeight, spineWidth
-  )
+  let title_texture = createTextTexture(title, frontFaceHeight, spineWidth);
   const materials = boxGeometryMaterialMaker(baseMaterial, {
     top: new THREE.MeshBasicMaterial({ map: title_texture }),
   });
@@ -116,7 +107,7 @@ window.addEventListener('wheel', function (event) {
   // camera.lookAt(0, 0, 0);
 
   // Log the new camera Y position for debugging purposes
-  console.log(camera.position.y);
+  html_console_log(camera.position.y);
 });
 
 // Handle window resize
