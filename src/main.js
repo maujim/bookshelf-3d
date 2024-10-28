@@ -85,7 +85,34 @@ for (let i = 0; i < numBooks; i++) {
 camera.position.set(0, 0, 15); // Positioned at (x, y, z)
 camera.lookAt(0, 0, 0); // Focus the camera on the center of the stack
 
+// get book hover
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
 function animate() {
+  // update the picking ray with the camera and pointer position
+  raycaster.setFromCamera(pointer, camera);
+
+  // calculate objects intersecting the picking ray
+  const intersects = raycaster.intersectObjects(scene.children);
+
+  const direction = new THREE.Vector3();
+  camera.getWorldDirection(direction); // Get the direction the camera is facing
+  const distance = 0.1; // Adjust this for how quickly it moves
+
+  // used for onHover
+  const seen = [];
+  intersects.forEach(intersect => {
+    intersect.object.position.z = distance;
+    seen.push(intersect.object.uuid);
+  });
+
+  scene.children
+    .filter(child => !seen.includes(child.uuid))
+    .forEach(obj => {
+      obj.position.z = 0;
+    });
+
   renderer.render(scene, camera);
 
   // for (const book of books) {
@@ -142,3 +169,14 @@ function createTextTexture(text, width, height) {
   const texture = new THREE.CanvasTexture(canvas);
   return texture;
 }
+
+// used for onHover
+function onPointerMove(event) {
+  // calculate pointer position in normalized device coordinates
+  // (-1 to +1) for both components
+
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+window.addEventListener('pointermove', onPointerMove);
