@@ -27,6 +27,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 let books = [];
+let book_uuids = [];
 
 // these are "real" metrics aligned to a proper book
 const spineWidth = 1;
@@ -79,6 +80,7 @@ for (let i = 0; i < numBooks; i++) {
   mesh.position.y = -i * (bookDepth + spacing);
 
   books.push(mesh);
+  book_uuids.push(mesh.uuid);
   scene.add(mesh);
 }
 
@@ -94,11 +96,15 @@ function animate() {
   raycaster.setFromCamera(pointer, camera);
 
   // calculate objects intersecting the picking ray
-  const intersects = raycaster.intersectObjects(scene.children);
+  const intersects = raycaster.intersectObjects(scene.children.filter(child => book_uuids.includes(child.uuid)));
+
+  // NOTE: we may not need to do this filter step above
+  // but just in case we add other objects in the scene
+  // i don't want this step to get really expensive
 
   const direction = new THREE.Vector3();
   camera.getWorldDirection(direction); // Get the direction the camera is facing
-  const distance = 0.1; // Adjust this for how quickly it moves
+  const distance = 0.2; // Adjust this for how quickly it moves
 
   // used for onHover
   const seen = [];
