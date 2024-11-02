@@ -1,17 +1,7 @@
-// vite.config.js
-import { resolve } from 'path'
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 
-const root = resolve('./src');
-
+// https://vite.dev/config/
 export default defineConfig({
-  root,
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(root, 'index.html'),
-        orbit: resolve(root, 'orbit/index.html'),
-      },
-    },
-  },
+  plugins: [react()],
 })
