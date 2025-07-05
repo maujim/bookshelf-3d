@@ -134,7 +134,7 @@ window.addEventListener('wheel', function (event) {
   const deltaY = event.deltaY;
 
   // Move the camera's Y position up or down based on the scroll delta
-  camera.position.y += deltaY * scrollSpeed;
+  camera.position.y -= deltaY * scrollSpeed;
 
   // Ensure the camera keeps looking at the center of the scene
   // camera.lookAt(0, 0, 0);
